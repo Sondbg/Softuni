@@ -1,0 +1,45 @@
+function solve(inputArr){
+let [city,population,treasury]=inputArr.shift().split('||');
+let arrCities={};
+while(city!='Sail'){
+    if(arrCities.hasOwnProperty(city)){
+arrCities[city].population+=Number(population);
+arrCities[city].treasury+=Number(treasury)
+    }else{
+let temp={}
+temp.population=Number(population);
+temp.treasury=Number(treasury);
+arrCities[city]=temp;
+    }
+    [city,population,treasury]=inputArr.shift().split('||');
+}
+let [event,town,p2,p3]=inputArr.shift().split('=>');
+while(event!='End'){
+    if(event=='Plunder' && arrCities.hasOwnProperty(town)){
+    arrCities[town].population-=p2;
+    arrCities[town].treasury-=Number(p3);
+    console.log(`${town} plundered! ${p3} gold stolen, ${p2} citizens killed.`);
+if(arrCities[town].treasury<=0 || arrCities[town].population<=0){
+    console.log(`${town} has been wiped off the map!`); 
+    delete arrCities[town];
+}
+    }
+    if(event=='Prosper'){
+        if(p2>0){
+        arrCities[town].treasury+=Number(p2);
+        console.log(`${p2} gold added to the city treasury. ${town} now has ${arrCities[town].treasury} gold.`);
+        }else{
+            console.log(`Gold added cannot be a negative number!`);
+        }
+    }
+    [event,town,p2,p3]=inputArr.shift().split('=>')
+}
+if(Object.keys(arrCities).length!=0){
+    console.log(`Ahoy, Captain! There are ${Object.keys(arrCities).length} wealthy settlements to go to:`);
+let token=Object.keys(arrCities);
+token.forEach(a=>console.log(`${a} -> Population: ${arrCities[a].population} citizens, Gold: ${arrCities[a].treasury} kg`))
+}else{
+console.log("Ahoy, Captain! All targets have been plundered and destroyed!");
+}
+
+}
