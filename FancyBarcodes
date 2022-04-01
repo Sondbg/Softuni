@@ -1,0 +1,15 @@
+function solve(inputArr){
+let countBarcodes=inputArr.shift();
+for (let barcode of inputArr) {
+    let barcodeRegEx=/(@#{1,})(?<barcode>[A-Z][a-zA-Z0-9]{4,}[A-Z])(@#{1,})/g
+    let token=barcodeRegEx.exec(barcode); 
+    if(token==null){
+        console.log('Invalid barcode');
+    }else{
+        let productGroup='00';
+        let groupRegEx=/[0-9]/g
+        let match=barcode.match(groupRegEx)
+        console.log('Product group:',match==null?productGroup:match.join(''));
+    }  
+}
+}
