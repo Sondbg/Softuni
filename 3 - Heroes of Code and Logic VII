@@ -1,0 +1,55 @@
+function solve(inputArr){
+let partySize=Number(inputArr.shift());
+let party={}
+let spells={Heal,Recharge,TakeDamage,CastSpell};
+for (let i = 0; i < partySize; i++) {
+let [hero,hp,mp]=inputArr.shift().split(' ');
+let heroObj={}
+    hp=Number(hp);
+    mp=Number(mp);
+    hp>100?hp=100:'';
+    mp>200?mp=200:'';
+    heroObj.hp=hp;
+    heroObj.mp=mp;
+    party[hero]=heroObj;
+}
+let [spell,p2,p3,p4]=inputArr.shift().split(' - ');
+while(spell!='End'){
+spells[spell](p2,p3,p4);
+[spell,p2,p3,p4]=inputArr.shift().split(' - ');
+}
+function CastSpell(hero,mp,spellName){
+    mp=Number(mp);
+    if(party[hero]['mp']>=mp){
+        party[hero]['mp']-=mp;
+        console.log(`${hero} has successfully cast ${spellName} and now has ${party[hero]['mp']} MP!`);
+    }else{
+        console.log(`${hero} does not have enough MP to cast ${spellName}!`);
+    }
+}
+function Heal(hero,heal){
+    let temp=Math.min((100-party[hero]['hp']),Number(heal))
+    party[hero]['hp']+=temp;
+    console.log(`${hero} healed for ${temp} HP!`);
+
+}
+function Recharge(hero,mana){
+    let temp=Math.min((200-party[hero]['mp']),Number(mana))
+    party[hero]['mp']+=temp;
+    console.log(`${hero} recharged for ${temp} MP!`);
+
+}
+function TakeDamage(hero,dmg,attacker){
+    dmg=Number(dmg);
+if(party[hero]['hp']>dmg){
+    party[hero]['hp']-=dmg;
+    console.log(`${hero} was hit for ${dmg} HP by ${attacker} and now has ${party[hero]['hp']} HP left!`);
+}else{
+    console.log(`${hero} has been killed by ${attacker}!`);
+    delete party[hero];
+}
+}
+for (let hero in party) {
+console.log(`${hero}\n  HP: ${party[hero]['hp']}\n  MP: ${party[hero]['mp']}`);
+}
+}
