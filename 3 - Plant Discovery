@@ -1,0 +1,53 @@
+function solve(inputArr){
+let plantsN=Number(inputArr.shift());
+let plantsList={}
+let commandsList={Rate,Update,Reset}
+for (let i =1; i<=plantsN; i++) {
+    let temp={}
+    let [plant,rarity]=inputArr.shift().split('<->');
+    temp.Rarity=Number(rarity);
+    temp.Rating=0;
+    temp.count=0;
+    plantsList[plant]=temp;
+}
+let [command,temp]=inputArr.shift().split(': ')
+while(command!="Exhibition"){
+    let [p1,p2]=temp.split(' - ');
+    if(plantsList[p1]==undefined){
+        console.log('error');
+    }else{
+    commandsList[command](p1,p2);
+    }
+[command,temp]=inputArr.shift().split(': ');
+}
+function Rate(plant,rating){
+plantsList[plant].Rating+=Number(rating);
+plantsList[plant].count++;
+return
+}
+function Update(plant,rarity){
+plantsList[plant].Rarity=Number(rarity);
+return
+}
+function Reset(plant){
+plantsList[plant].Rating=0;
+plantsList[plant].count=0;
+}
+console.log(`Plants for the exhibition:`);
+for (let plant in plantsList) {
+    plantsList[plant].count==0?plantsList[plant].count=1:'';
+    console.log(`- ${plant}; Rarity: ${plantsList[plant].Rarity}; Rating: ${((plantsList[plant].Rating)/plantsList[plant].count).toFixed(2)}`);
+}
+}
+solve(["3",
+"Arnoldii<->4",
+"Woodii<->7",
+"Welwitschia<->2",
+"Rate: Woodii - 10",
+"Rate: Welwitschia - 7",
+"Rate: Arnoldii - 3",
+"Rate: Woodii - 5",
+"Update: Woodii - 5",
+"Reset: Arnoldii",
+"Exhibition"])
+
