@@ -1,0 +1,46 @@
+function solve(inputArr){
+let listStops=inputArr.shift();
+let listCommands={AddStop,RemoveStop,Switch};
+let [command,p1,p2]=inputArr.shift().split(':')
+command=command.split(' ').join('')
+while(command!='Travel'){
+listCommands[command](p1,p2);
+command=inputArr.shift().split(':')
+p1=command[1];
+p2=command[2];
+command=command.shift().split(' ').join('');
+}
+function AddStop(index,string){
+    index=Number(index);
+    let temp=listStops.charAt(index);
+    if(temp!=''){
+        let one=listStops.slice(0,index);
+        let two=listStops.slice(index,)
+        listStops=one+string+two
+    }
+    console.log(listStops); 
+return
+}
+function RemoveStop(startIndex,endIndex){
+if((listStops[startIndex]&&listStops[endIndex])!=undefined){
+    let temp=listStops.slice(0,Number(startIndex));
+    let temp2=listStops.slice(Number(endIndex)+1,);
+    listStops=temp+temp2;
+}
+console.log(listStops);
+return
+}
+function Switch(oldString,newString){
+if(listStops.includes(oldString)){
+    listStops=listStops.split(oldString).join(newString);
+}
+console.log(listStops);
+return
+}
+console.log(`Ready for world tour! Planned stops: ${listStops}`);
+}
+solve(["Hawai::Cyprys-Greece",
+"Add Stop:7:Rome",
+"Remove Stop:11:16",
+"Switch:Hawai:Bulgaria",
+"Travel"])
