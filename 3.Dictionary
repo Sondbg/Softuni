@@ -1,0 +1,30 @@
+function solve(inputArr){
+let info=inputArr.shift().split(' | ');
+let obj={}
+for (let token of info) {
+    let [word,def]=token.split(': ')
+    let temp=[]
+    temp.push(def)
+    if(obj.hasOwnProperty(word)){
+        obj[word].push(def)
+    }else{
+    obj[word]=temp
+    }
+}
+let test=inputArr.shift().split(' | ');
+if(inputArr.shift()=='Hand Over'){
+    console.log(Object.keys(obj).join(' '));
+}else{
+ for (let temp of test) {
+     if(obj.hasOwnProperty(temp)){
+    console.log(`${temp}:`);
+    obj[temp].forEach(a=>console.log(`-${a}`))
+     }
+ }
+}
+}
+solve(["tackle: the equipment required for a task or sport | code: write code for a computer program | bit: a small piece, part, or quantity of something | tackle: make determined efforts to deal with a problem | bit: a short time or distance",
+"bit | code | tackle",
+"Test"])
+
+
