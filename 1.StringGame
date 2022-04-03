@@ -1,0 +1,39 @@
+function solve(inputArr){
+let string=inputArr.shift();
+let [command,p1,p2]=inputArr.shift().split(' ');
+let commandObj={Change,Includes,End,Uppercase,FindIndex,Cut}
+while(command!='Done'){
+commandObj[command](p1,p2);
+    [command,p1,p2]=inputArr.shift().split(' ');
+}
+function Change(char,replace){
+    while(string.includes(char)){
+        string=string.replace(char,replace)
+    }
+    console.log(string);
+    return
+}
+function Includes(substring){
+console.log(string.includes(substring)?'True':'False');
+    return
+}
+function End(substring){
+    console.log(string.endsWith(substring)?'True':'False');
+    return
+}
+function Uppercase(){
+    string=string.toLocaleUpperCase();
+    console.log(string);
+    return
+}
+function FindIndex(char){
+   console.log(string.indexOf(char));
+   return
+}
+function Cut(start,count){
+    let temp=string.slice(Number(start),Number(start)+Number(count));
+    string=temp;
+    console.log(string);
+    return
+}
+}
